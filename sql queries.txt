@@ -1,0 +1,64 @@
+-- 1. SELECT - Display all records
+SELECT * FROM customers;
+
+-- 2. WHERE - Filter records
+SELECT * FROM customers
+WHERE country = 'India';
+
+-- 3. ORDER BY - Sort records
+SELECT * FROM products
+ORDER BY price DESC;
+
+-- 4. GROUP BY - Group data
+SELECT category, COUNT(*) AS total_products
+FROM products
+GROUP BY category;
+
+-- 5. Aggregate Functions (SUM)
+SELECT SUM(total_amount) AS total_sales
+FROM orders;
+
+-- 6. Aggregate Functions (AVG)
+SELECT AVG(total_amount) AS average_order_value
+FROM orders;
+
+-- 7. INNER JOIN
+SELECT c.customer_name, o.order_id, o.total_amount
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id;
+
+-- 8. LEFT JOIN
+SELECT c.customer_name, o.order_id
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id;
+
+-- 9. RIGHT JOIN
+SELECT c.customer_name, o.order_id
+FROM customers c
+RIGHT JOIN orders o
+ON c.customer_id = o.customer_id;
+
+-- 10. Subquery
+SELECT customer_name
+FROM customers
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM orders
+    WHERE total_amount > 1000
+);
+
+-- 11. Create View
+CREATE VIEW customer_orders AS
+SELECT c.customer_name, o.order_id, o.total_amount
+FROM customers c
+INNER JOIN orders o
+ON c.customer_id = o.customer_id;
+
+-- View the created view
+SELECT * FROM customer_orders;
+
+-- 12. Index for Query Optimization
+CREATE INDEX idx_customer_id
+ON orders(customer_id);
